@@ -116,8 +116,13 @@ export default {
       ]
     }).setView([51.505, -0.09], 13)
     fixiconpath()
-    L.Control.geocoder().addTo(checkpointmap)
-
+    L.Control.geocoder({
+      defaultMarkGeocode: false
+    })
+    .on('markgeocode', function (e) {
+      checkpointmap.fitBounds(e.geocode.bbox)
+    })
+    .addTo(checkpointmap)
     console.log(checkpointmap)
     route = new Route('London Route')
     vm.route = route
